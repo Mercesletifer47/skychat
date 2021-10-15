@@ -191,9 +191,9 @@ public class Controller implements Initializable {
     private void setTitle(String nickname) {
         Platform.runLater(() -> {
             if (!nickname.equals("")) {
-                stage.setTitle(String.format("Home Chat[ %s ]", nickname));
+                stage.setTitle(String.format("Sky Chat[ %s ]", nickname));
             } else {
-                stage.setTitle("Home Chat");
+                stage.setTitle("Sky Chat");
             }
         });
     }
@@ -208,7 +208,7 @@ public class Controller implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/reg.fxml"));
             Parent root = fxmlLoader.load();
             regStage = new Stage();
-            regStage.setTitle("Home Chat registration");
+            regStage.setTitle("Sky Chat registration");
             regStage.setScene(new Scene(root, 600, 400));
             regController = fxmlLoader.getController();
             regController.setController(this);

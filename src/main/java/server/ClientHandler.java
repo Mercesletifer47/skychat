@@ -27,7 +27,7 @@ public class ClientHandler {
 
             new Thread(() -> {
                 try {
-                    //socket.setSoTimeout(120000);
+                    socket.setSoTimeout(120000);
                     // цикл аутентификации
                     while (true) {
                         String str = in.readUTF();
@@ -71,7 +71,7 @@ public class ClientHandler {
                             }
                         }
                     }
-                    //socket.setSoTimeout(0);
+                    socket.setSoTimeout(0);
                     // цикл работы
                     while (authenticated) {
                         String str = in.readUTF();
@@ -96,9 +96,9 @@ public class ClientHandler {
                     }
                     // SocketTimeoutException
                 } catch (IOException e) {
-                    e.printStackTrace();
-//                    sendMsg("/end");
-//                    System.out.println("Client disconnected");
+                    //e.printStackTrace();
+                    sendMsg("/end");
+                    System.out.println("Client disconnected");
                 } finally {
                     server.unsubscribe(this);
                     try {

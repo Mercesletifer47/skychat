@@ -14,10 +14,13 @@ public class Server {
     private List<ClientHandler> clients;
     private AuthService authService;
 
+    private Database database = Database.getInstance();
+
     public Server() {
         clients = new CopyOnWriteArrayList<>();
-        authService = new SimpleAuthService();
+        authService = new DatabaseAuthService(database);
         try {
+            database.connect();
             server = new ServerSocket(PORT);
             System.out.println("Server started!");
 
@@ -30,6 +33,7 @@ public class Server {
             e.printStackTrace();
         } finally {
             try {
+                database.disconnect();
                 server.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -41,6 +45,7 @@ public class Server {
         String message = String.format("[ %s ]: %s", sender.getNickname(), msg);
         for (ClientHandler c : clients) {
             c.sendMsg(message);
+            database.addMessage(sender.getNickname(), "ALL", msg);
         }
     }
 
@@ -51,6 +56,7 @@ public class Server {
                 c.sendMsg(message);
                 if (!c.equals(sender)) {
                     sender.sendMsg(message);
+                    database.addMessage(sender.getNickname(), receiver, msg);
                 }
                 return;
             }
